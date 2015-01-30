@@ -2,8 +2,8 @@ include_recipe 'deploy'
 
 node[:deploy].each do |application, deploy|
 
-  if deploy[:application_type] != 'appsapi'
-    Chef::Log.debug("Skipping deploy::appsapi for application #{application} as it is not a apsapi app")
+  if deploy[:application_type] != 'other'
+    Chef::Log.debug("Skipping deploy::appsapi for application #{application} as it is not a other app")
     next
   end
 

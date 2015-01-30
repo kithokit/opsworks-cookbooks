@@ -1,10 +1,10 @@
 include_recipe "opsworks_java::#{node['opsworks_java']['java_app_server']}_service"
 
 node[:deploy].each do |application, deploy|
-  if deploy[:application_type] != 'java'
-    Chef::Log.debug("Skipping deploy::java application #{application} as it is not a Java app")
-    next
-  end
+  #if deploy[:application_type] != 'java'
+    #Chef::Log.debug("Skipping deploy::java application #{application} as it is not a Java app")
+    #next
+  #end
 
   # ROOT has a special meaning and has to be capitalized
   if application == 'root'
