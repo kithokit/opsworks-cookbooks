@@ -1,6 +1,12 @@
 include_recipe 'deploy'
 
 node[:deploy].each do |application, deploy|
+
+  if deploy[:application_type] != 'appsapi'
+    Chef::Log.debug("Skipping deploy::appsapi for application #{application} as it is not a apsapi app")
+    next
+  end
+
   case deploy[:database][:type]
   when "mysql"
     connector_jar = node['opsworks_java']['tomcat']['mysql_connector_jar']
