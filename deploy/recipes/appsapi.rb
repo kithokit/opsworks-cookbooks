@@ -2,10 +2,11 @@ include_recipe 'deploy'
 
 node[:deploy].each do |application, deploy|
 
-  #if deploy[:application_type] != 'other'
-    #Chef::Log.debug("Skipping deploy::appsapi for application #{application} as it is not a other app")
-    #next
-  #end
+  Chef::Log.info("App type: #{deploy[:application_type]}")
+  if deploy[:application_type] != 'other'
+    Chef::Log.debug("Skipping deploy::appsapi for application #{application} as it is not a other app")
+    next
+  end
 
   case deploy[:database][:type]
   when "mysql"
