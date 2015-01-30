@@ -3,8 +3,8 @@
      define subcomponents such as "Valves" at this level.
      Documentation at /docs/config/server.html
  -->
-<Server port="<%= node['opsworks_java']['tomcat']['shutdown_port'] %>" shutdown="SHUTDOWN">
-<% if node['opsworks_java']['tomcat']['base_version'].to_i > 6 -%>
+<Server port="<%= node['opsworks_appsapi']['tomcat']['shutdown_port'] %>" shutdown="SHUTDOWN">
+<% if node['opsworks_appsapi']['tomcat']['base_version'].to_i > 6 -%>
   <!-- Security listener. Documentation at /docs/config/listeners.html
   <Listener className="org.apache.catalina.security.SecurityListener" />
   -->
@@ -15,12 +15,12 @@
   <Listener className="org.apache.catalina.core.JasperListener" />
   <!-- Prevent memory leaks due to use of particular java/javax APIs-->
   <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
-<% if node['opsworks_java']['tomcat']['base_version'].to_i < 7 -%>
+<% if node['opsworks_appsapi']['tomcat']['base_version'].to_i < 7 -%>
   <!-- JMX Support for the Tomcat server. Documentation at /docs/non-existent.html -->
   <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
 <% end -%>
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
-<% if node['opsworks_java']['tomcat']['base_version'].to_i > 6 -%>
+<% if node['opsworks_appsapi']['tomcat']['base_version'].to_i > 6 -%>
   <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
 <% end -%>
 
@@ -35,7 +35,7 @@
               type="org.apache.catalina.UserDatabase"
               description="User database that can be updated and saved"
               factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
-              pathname="<%= node['opsworks_java']['tomcat']['userdatabase_pathname'] %>" />
+              pathname="<%= node['opsworks_appsapi']['tomcat']['userdatabase_pathname'] %>" />
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share
@@ -46,12 +46,12 @@
   <Service name="Catalina">
 
     <!--The connectors can use a shared executor, you can define one or more named thread pools-->
-<% unless node['opsworks_java']['tomcat']['use_threadpool'] -%>
+<% unless node['opsworks_appsapi']['tomcat']['use_threadpool'] -%>
     <!--
 <% end -%>
     <Executor name="tomcatThreadPool" namePrefix="catalina-exec-"
-        maxThreads="<%= node['opsworks_java']['tomcat']['threadpool_max_threads'] %>" minSpareThreads="<%= node['opsworks_java']['tomcat']['threadpool_min_spare_threads'] %>"/>
-<% unless node['opsworks_java']['tomcat']['use_threadpool'] -%>
+        maxThreads="<%= node['opsworks_appsapi']['tomcat']['threadpool_max_threads'] %>" minSpareThreads="<%= node['opsworks_appsapi']['tomcat']['threadpool_min_spare_threads'] %>"/>
+<% unless node['opsworks_appsapi']['tomcat']['use_threadpool'] -%>
     -->
 <% end -%>
 
@@ -61,49 +61,49 @@
          Java HTTP Connector: /docs/config/http.html (blocking & non-blocking)
          Java AJP  Connector: /docs/config/ajp.html
          APR (HTTP/AJP) Connector: /docs/apr.html
-         Define a non-SSL HTTP/1.1 Connector on port <%= node['opsworks_java']['tomcat']['port'] %>
+         Define a non-SSL HTTP/1.1 Connector on port <%= node['opsworks_appsapi']['tomcat']['port'] %>
     -->
-<% if node['opsworks_java']['tomcat']['use_threadpool'] -%>
+<% if node['opsworks_appsapi']['tomcat']['use_threadpool'] -%>
     <!--
 <% end -%>
-    <Connector port="<%= node['opsworks_java']['tomcat']['port'] %>" protocol="HTTP/1.1"
-               connectionTimeout="<%= node['opsworks_java']['tomcat']['connection_timeout'] %>"
-               URIEncoding="<%= node['opsworks_java']['tomcat']['uri_encoding'] %>"
-               redirectPort="<%= node['opsworks_java']['tomcat']['secure_port'] %>" />
-<% if node['opsworks_java']['tomcat']['use_threadpool'] -%>
+    <Connector port="<%= node['opsworks_appsapi']['tomcat']['port'] %>" protocol="HTTP/1.1"
+               connectionTimeout="<%= node['opsworks_appsapi']['tomcat']['connection_timeout'] %>"
+               URIEncoding="<%= node['opsworks_appsapi']['tomcat']['uri_encoding'] %>"
+               redirectPort="<%= node['opsworks_appsapi']['tomcat']['secure_port'] %>" />
+<% if node['opsworks_appsapi']['tomcat']['use_threadpool'] -%>
     -->
 <% end -%>
     <!-- A "Connector" using the shared thread pool-->
-<% unless node['opsworks_java']['tomcat']['use_threadpool'] -%>
+<% unless node['opsworks_appsapi']['tomcat']['use_threadpool'] -%>
     <!--
 <% end -%>
     <Connector executor="tomcatThreadPool"
-               port="<%= node['opsworks_java']['tomcat']['port'] %>" protocol="HTTP/1.1"
-               connectionTimeout="<%= node['opsworks_java']['tomcat']['connection_timeout'] %>"
-               URIEncoding="<%= node['opsworks_java']['tomcat']['uri_encoding'] %>"
-               redirectPort="<%= node['opsworks_java']['tomcat']['secure_port'] %>" />
-<% unless node['opsworks_java']['tomcat']['use_threadpool'] -%>
+               port="<%= node['opsworks_appsapi']['tomcat']['port'] %>" protocol="HTTP/1.1"
+               connectionTimeout="<%= node['opsworks_appsapi']['tomcat']['connection_timeout'] %>"
+               URIEncoding="<%= node['opsworks_appsapi']['tomcat']['uri_encoding'] %>"
+               redirectPort="<%= node['opsworks_appsapi']['tomcat']['secure_port'] %>" />
+<% unless node['opsworks_appsapi']['tomcat']['use_threadpool'] -%>
     -->
 <% end -%>
-    <!-- Define a SSL HTTP/1.1 Connector on port <%= node['opsworks_java']['tomcat']['secure_port'] %>
+    <!-- Define a SSL HTTP/1.1 Connector on port <%= node['opsworks_appsapi']['tomcat']['secure_port'] %>
          This connector uses the JSSE configuration, when using APR, the
          connector should be using the OpenSSL style configuration
          described in the APR documentation -->
-<% unless node['opsworks_java']['tomcat']['use_ssl_connector'] -%>
+<% unless node['opsworks_appsapi']['tomcat']['use_ssl_connector'] -%>
     <!--
 <% end -%>
-    <Connector port="<%= node['opsworks_java']['tomcat']['secure_port'] %>" protocol="HTTP/1.1" SSLEnabled="true"
-               maxThreads="<%= node['opsworks_java']['tomcat']['threadpool_max_threads'] %>" scheme="https" secure="true"
-               URIEncoding="<%= node['opsworks_java']['tomcat']['uri_encoding'] %>"
+    <Connector port="<%= node['opsworks_appsapi']['tomcat']['secure_port'] %>" protocol="HTTP/1.1" SSLEnabled="true"
+               maxThreads="<%= node['opsworks_appsapi']['tomcat']['threadpool_max_threads'] %>" scheme="https" secure="true"
+               URIEncoding="<%= node['opsworks_appsapi']['tomcat']['uri_encoding'] %>"
                clientAuth="false" sslProtocol="TLS" />
-<% unless node['opsworks_java']['tomcat']['use_ssl_connector'] -%>
+<% unless node['opsworks_appsapi']['tomcat']['use_ssl_connector'] -%>
     -->
 <% end -%>
 
-    <!-- Define an AJP 1.3 Connector on port <%= node['opsworks_java']['tomcat']['ajp_port'] %> -->
-    <Connector port="<%= node['opsworks_java']['tomcat']['ajp_port'] %>" protocol="AJP/1.3"
-               URIEncoding="<%= node['opsworks_java']['tomcat']['uri_encoding'] %>"
-               redirectPort="<%= node['opsworks_java']['tomcat']['secure_port'] %>" />
+    <!-- Define an AJP 1.3 Connector on port <%= node['opsworks_appsapi']['tomcat']['ajp_port'] %> -->
+    <Connector port="<%= node['opsworks_appsapi']['tomcat']['ajp_port'] %>" protocol="AJP/1.3"
+               URIEncoding="<%= node['opsworks_appsapi']['tomcat']['uri_encoding'] %>"
+               redirectPort="<%= node['opsworks_appsapi']['tomcat']['secure_port'] %>" />
 
 
     <!-- An Engine represents the entry point (within Catalina) that processes
@@ -124,7 +124,7 @@
       <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"/>
       -->
 
-<% if node['opsworks_java']['tomcat']['base_version'].to_i < 7 -%>
+<% if node['opsworks_appsapi']['tomcat']['base_version'].to_i < 7 -%>
       <!-- The request dumper valve dumps useful debugging information about
            the request and response data received and sent by Tomcat.
            Documentation at: /docs/config/valve.html -->
@@ -133,7 +133,7 @@
       -->
 
 <% end -%>
-<% if node['opsworks_java']['tomcat']['base_version'].to_i > 6 -%>
+<% if node['opsworks_appsapi']['tomcat']['base_version'].to_i > 6 -%>
       <!-- Use the LockOutRealm to prevent attempts to guess user passwords
            via a brute-force attack -->
       <Realm className="org.apache.catalina.realm.LockOutRealm">
@@ -144,12 +144,12 @@
              available for use by the Realm.  -->
         <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
                resourceName="UserDatabase"/>
-<% if node['opsworks_java']['tomcat']['base_version'].to_i > 6 -%>
+<% if node['opsworks_appsapi']['tomcat']['base_version'].to_i > 6 -%>
       </Realm>
 <% end -%>
 
       <Host name="localhost"  appBase="webapps"
-        unpackWARs="<%= node['opsworks_java']['tomcat']['unpack_wars'] %>" autoDeploy="<%= node['opsworks_java']['tomcat']['auto_deploy'] %>">
+        unpackWARs="<%= node['opsworks_appsapi']['tomcat']['unpack_wars'] %>" autoDeploy="<%= node['opsworks_appsapi']['tomcat']['auto_deploy'] %>">
 
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->

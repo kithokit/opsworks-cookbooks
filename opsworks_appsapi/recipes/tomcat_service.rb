@@ -1,5 +1,5 @@
 service 'tomcat' do
-  service_name node['opsworks_java']['tomcat']['service_name']
+  service_name node['opsworks_appsapi']['tomcat']['service_name']
 
   case node[:platform_family]
   when 'debian'

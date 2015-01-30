@@ -1,5 +1,5 @@
-include_recipe 'opsworks_java::tomcat_install'
-include_recipe 'opsworks_java::tomcat_service'
+include_recipe 'opsworks_appsapi::tomcat_install'
+include_recipe 'opsworks_appsapi::tomcat_service'
 
 service 'tomcat' do
   action :enable
@@ -14,6 +14,6 @@ bash '(re-)start autofs earlier' do
   notifies :restart, 'service[tomcat]'
 end
 
-include_recipe 'opsworks_java::tomcat_container_config'
+include_recipe 'opsworks_appsapi::tomcat_container_config'
 include_recipe 'apache2'
-include_recipe 'opsworks_java::apache_tomcat_bind'
+include_recipe 'opsworks_appsapi::apache_tomcat_bind'
