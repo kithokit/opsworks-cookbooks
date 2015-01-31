@@ -1,7 +1,7 @@
 include_recipe "opsworks_appsapi::#{node['opsworks_appsapi']['java_app_server']}_service"
 
 node[:deploy].each do |application, deploy|
-  if application != 'appsdollars_api'
+  if application != 'appsdollar_api'
     Chef::Log.info("Skipping deploy::appsapi application #{application} as it is not a appsdollar api")
     next
   end

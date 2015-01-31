@@ -3,7 +3,7 @@ include_recipe 'deploy'
 node[:deploy].each do |application, deploy|
 
   Chef::Log.info("App type: #{deploy[:application_type]}")
-  if application != 'appsdollars_api'
+  if application != 'appsdollar_api'
     Chef::Log.debug("Skipping deploy::appsapi for application #{application} as it is not a api app")
     next
   end
