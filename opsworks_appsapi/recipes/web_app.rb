@@ -14,8 +14,8 @@
 node[:deploy].each do |application, deploy|
   include_recipe 'apache2::service'
 
-  if deploy[:application_type] != 'appsdollars_api'
-    Chef::Log.info("Skipping deploy::appsapi application #{application} as it is not a appsdollar cms")
+  if application != 'appsdollars_api'
+    Chef::Log.info("Skipping deploy::appsapi application #{application} as it is not a appsdollar api")
     next
   end
 
